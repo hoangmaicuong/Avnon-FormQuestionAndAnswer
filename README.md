@@ -1,4 +1,4 @@
-# Mo ta
+### Mo ta
 1.SQL Server  
 Toi uu thiet ke de truy van don gian cung BE va FE  
 
@@ -9,7 +9,7 @@ Dapper
 3.Fornt-end  
 Angular và Typescript  
 
-# Run Project:
+### Run Project:
 1.Data  
 Run file /file/FormQuestionAndAnswer/SQLData.sql  
 
