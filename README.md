@@ -5,6 +5,7 @@ Toi uu thiet ke de truy van don gian cung BE va FE
 2.Back-end  
 EF core  
 Dapper  
+Data first: Scaffold-DbContext 'Data Source=MAICUONG-LAP;Initial Catalog=FormQuestionAndAnswer;User ID=sa;Password=123;TrustServerCertificate=True;' Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models  
 
 3.Fornt-end  
 Angular và Typescript  
