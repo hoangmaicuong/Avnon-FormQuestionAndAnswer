@@ -6,6 +6,7 @@ Toi uu thiet ke de truy van don gian cung BE va FE
 EF core  
 Dapper  
 Data first: Scaffold-DbContext 'Data Source=MAICUONG-LAP;Initial Catalog=FormQuestionAndAnswer;User ID=sa;Password=123;TrustServerCertificate=True;' Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models  
+Update Data: Scaffold-DbContext 'Data Source=MAICUONG-LAP;Initial Catalog=FormQuestionAndAnswer;User ID=sa;Password=123;TrustServerCertificate=True;' Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force  
 
 3.Fornt-end  
 Angular và Typescript  
