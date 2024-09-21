@@ -4,15 +4,30 @@
     {
         public AnswerDTO() 
         {
+            questions = new List<AnswerQuestionDTO>();
+        }
+        public int? questionTitleId { get; set; }
+        public string questionTitleContent { get; set; } = null;
+        public List<AnswerQuestionDTO> questions { get; set; }
+    }
+    public class AnswerQuestionDTO
+    {
+        public AnswerQuestionDTO()
+        {
             answerOptionChosed = new List<AnswerOptionChosed>();
         }
-        public int? question_id { get; set; }
-        public string answer_content { get; set; } = null;
+        public int? questionId { get; set; }
+        public string questionContent { get; set; }
+        public bool isRequired { get; set; }
+        public int? answerTypeId { get; set; }
+        public string? answerTypeCode { get; set; }
+        public string? answerContent { get; set; }
         public List<AnswerOptionChosed> answerOptionChosed { get; set; }
     }
     public class AnswerOptionChosed
     {
-        public int? answer_option_id { get; set; }
-        public string option_answer_content { get; set; }
+        public int? answerId { get; set; }
+        public int? answerOptionId { get; set; }
+        public string optionAnswerContent { get; set; }
     }
 }

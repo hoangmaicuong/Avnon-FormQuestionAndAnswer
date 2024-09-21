@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FormQuestionAndAnswer.Contexts;
 using FormQuestionAndAnswer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FormQuestionAndAnswer.Controllers
 {
@@ -31,25 +32,52 @@ namespace FormQuestionAndAnswer.Controllers
         }
         public object Post(AnswerDTO answerDTO)
         {
-            List<Answer> answers = new List<Answer>();
-            var question = dbContext.Questions.FirstOrDefault(x => x.Id == answerDTO.question_id);
-            if(question != null)
-                question.AnswerContent = answerDTO.answer_content ?? null;
-            if(answerDTO.answerOptionChosed.Count > 0)
+            List<Answer> answers;
+            List<Answer> answerRemoves;
+            foreach (var item in answerDTO.questions)
             {
-                var answersOld = dbContext.Answers.Where(x => x.QuestionId == answerDTO.question_id).ToList();
-                dbContext.Answers.RemoveRange(answersOld);
-                dbContext.SaveChanges();
-
-                foreach (var item in answerDTO.answerOptionChosed)
+                answers = new List<Answer>();
+                answerRemoves = new List<Answer>();
+                var question = dbContext.Questions.FirstOrDefault(x => x.Id == item.questionId);
+                if (question != null)
                 {
-                    Answer answer = new Answer();
-                    answer.QuestionId = answerDTO.question_id;
-                    answer.AnswerOptionId = item.answer_option_id;
-                    answers.Add(answer);
+                    question.AnswerContent = item.answerContent ?? null;
+                    dbContext.Entry(question).State = EntityState.Modified;
                 }
+                if (item.answerOptionChosed.Count > 0)
+                {
+                    //var answersOld = dbContext.Answers.Where(x => x.QuestionId == item.questionId).ToList();
+                    //dbContext.Answers.RemoveRange(answersOld);
+                    //dbContext.SaveChanges();
+                    var answerAll = dbContext.Answers.Where(x => x.QuestionId == item.questionId).ToList();
+                    foreach (var itemOption in item.answerOptionChosed)
+                    {
+                        Answer answer = new Answer();
+                        if(itemOption.answerId > 0)
+                        {
+                            //Sữa
+                            var answerFilter = answerAll.FirstOrDefault(x => x.Id == itemOption.answerId);
+                            answerFilter.AnswerOptionId = itemOption.answerOptionId;
+                            dbContext.Entry(answerFilter).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            // Thêm
+                            answer.QuestionId = item.questionId;
+                            answer.AnswerOptionId = itemOption.answerOptionId;
+                            answers.Add(answer);
+                        }
+                    }
+                    //remove dữ liệu cũ bỏ chọn
+                    foreach(var itemAnswer in answerAll)
+                    {
+                        var isChose = item.answerOptionChosed.Any(x => x.answerId == itemAnswer.Id);
+                        if(!isChose) answerRemoves.Add(itemAnswer);
+                    }
+                }
+                dbContext.Answers.RemoveRange(answerRemoves);
+                dbContext.Answers.AddRange(answers);
             }
-            dbContext.Answers.AddRange(answers);
             dbContext.SaveChanges();
             return true;
         }
