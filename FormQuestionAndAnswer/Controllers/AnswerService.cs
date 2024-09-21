@@ -12,17 +12,19 @@ namespace FormQuestionAndAnswer.Controllers
         {
             dapperContext = _dapperContext;
         }
-        public object Get(int questionID)
+        public object Get(int questionTitleId)
         {
-            var query = $"EXEC GetQuestion @ID = {questionID}";
+            var query = $"EXEC GetQuestionTitle @ID = {questionTitleId}";
             var parameters = new DynamicParameters();
             var result = new Dictionary<string, object>();
             using (var connec = dapperContext.CreateConnection())
             {
                 var data = connec.QueryMultiple(query, parameters);
-                var Question = data.Read();
+                var View = data.Read();
+                var Answer = data.Read();
 
-                result["Question"] = Question;
+                result["View"] = View;
+                result["Answer"] = Answer;
 
                 return result;
             }

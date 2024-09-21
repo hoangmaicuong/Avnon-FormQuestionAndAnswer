@@ -14,10 +14,10 @@ namespace FormQuestionAndAnswer.Controllers
         {
             answerService = _answerService;
         }
-        [HttpGet("{questionID}")]
-        public object Get(int questionID)
+        [HttpGet("{questionTitleId}")]
+        public object Get(int questionTitleId)
         {
-            return answerService.Get(questionID);
+            return answerService.Get(questionTitleId);
         }
         [HttpPost]
         public object Post(AnswerDTO answerDTO)
