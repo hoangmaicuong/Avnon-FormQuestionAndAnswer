@@ -30,23 +30,35 @@ namespace FormQuestionAndAnswer.Controllers
                 return result;
             }
         }
-        public object Post(QuestionDTO questionDTO)
+        public object Post(QuestionTitleDTO questionDTO)
         {
-            Question question = new Question();
-            int? aswerTypeID = dbContext.AnswerTypes.FirstOrDefault(x => x.Code == questionDTO.answerTypeCode)?.Id;
+            QuestionTitle questionTitle = new QuestionTitle();
+            Question question;
+            AnswerOption answerOption;
+            var answerTypesAll = dbContext.AnswerTypes.ToList();
+            
 
-            question.QuestionContent = questionDTO.questionContent;
-            question.AnswerTypeId = aswerTypeID;
-            if(questionDTO.answerTypeCode == "ChooseAS" && aswerTypeID != null)
+            questionTitle.QuestionTitleContent = questionDTO.questionTitleContent;
+            foreach(var itemQuestion in questionDTO.questions)
             {
-                foreach(var item in questionDTO.answerOptionDTOs)
+                question = new Question();
+                int? aswerTypeID = answerTypesAll.FirstOrDefault(x => x.Code?.Trim() == itemQuestion.answerTypeCode?.Trim())?.Id;
+
+                question.QuestionContent = itemQuestion.questionContent;
+                question.AnswerTypeId = aswerTypeID;
+                question.IsRequired = itemQuestion.isRequired;
+                if (itemQuestion.answerTypeCode == "ChooseAS" && aswerTypeID != null)
                 {
-                    var answerOption = new AnswerOption();
-                    answerOption.OptionAnswerContent = item.optionAnswerContent;
-                    question.AnswerOptions.Add(answerOption);
+                    foreach (var itemAnswerOption in itemQuestion.answerOptionDTOs)
+                    {
+                        answerOption = new AnswerOption();
+                        answerOption.OptionAnswerContent = itemAnswerOption.optionAnswerContent;
+                        question.AnswerOptions.Add(answerOption);
+                    }
                 }
+                questionTitle.Questions.Add(question);
             }
-            dbContext.Questions.Add(question);
+            dbContext.QuestionTitles.Add(questionTitle);
             dbContext.SaveChanges();
             return true;
         }

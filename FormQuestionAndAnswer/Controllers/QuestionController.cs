@@ -16,11 +16,10 @@ namespace FormQuestionAndAnswer.Controllers
         [HttpGet]
         public object Get()
         {
-            //return new string[] { "value1", "value2" };
             return questionService.Get();
         }
         [HttpPost]
-        public object Post(QuestionDTO questionDTO)
+        public object Post(QuestionTitleDTO questionDTO)
         {
             return questionService.Post(questionDTO);
         }

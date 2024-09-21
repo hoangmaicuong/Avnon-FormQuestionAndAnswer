@@ -14,15 +14,15 @@ namespace FormQuestionAndAnswer.Controllers
         }
         public object Get()
         {
-            var query = "EXEC GetAllQuestion";
+            var query = "EXEC GetAllQuestionTitle";
             var parameters = new DynamicParameters();
             var result = new Dictionary<string, object>();
             using (var connec = dapperContext.CreateConnection())
             {
                 var data = connec.QueryMultiple(query, parameters);
-                var Questions = data.Read();
+                var QuestionTitles = data.Read();
 
-                result["Questions"] = Questions;
+                result["QuestionTitles"] = QuestionTitles;
 
                 return result;
             }

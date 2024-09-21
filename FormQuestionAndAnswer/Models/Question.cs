@@ -13,9 +13,15 @@ public partial class Question
 
     public string? AnswerContent { get; set; }
 
+    public int? QuestionTitleId { get; set; }
+
+    public bool? IsRequired { get; set; }
+
     public virtual ICollection<AnswerOption> AnswerOptions { get; set; } = new List<AnswerOption>();
 
     public virtual AnswerType? AnswerType { get; set; }
 
     public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
+
+    public virtual QuestionTitle? QuestionTitle { get; set; }
 }
