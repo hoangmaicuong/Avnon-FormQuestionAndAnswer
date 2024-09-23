@@ -47,7 +47,7 @@ namespace FormQuestionAndAnswer.Controllers
                 question.QuestionContent = itemQuestion.questionContent;
                 question.AnswerTypeId = aswerTypeID;
                 question.IsRequired = itemQuestion.isRequired;
-                if (itemQuestion.answerTypeCode == "ChooseAS" && aswerTypeID != null)
+                if (aswerTypeID != null && itemQuestion.answerTypeCode?.Trim() == "ChooseAS")
                 {
                     foreach (var itemAnswerOption in itemQuestion.answerOptionDTOs)
                     {
